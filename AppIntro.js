@@ -29,8 +29,8 @@ const defaulStyles = {
     alignItems: 'center',
   },
   pic: {
-    width: 150,
-    height: 150,
+    width: 100,
+    height: 100,
   },
   info: {
     flex: 0.5,
@@ -46,12 +46,14 @@ const defaulStyles = {
   },
   title: {
     color: '#fff',
-    fontSize: 30,
+    fontSize: 20,
+    fontWeight: '800',
     paddingBottom: 20,
   },
   description: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: 14,
+    // fontWeight: '200',
   },
   controllText: {
     color: '#fff',
@@ -95,7 +97,8 @@ const defaulStyles = {
     height: 50,
   },
   nextButtonText: {
-    fontSize: 25,
+    fontSize: 15,
+    marginLeft: 14,
     fontWeight: 'bold',
     fontFamily: 'Arial',
   },
@@ -348,7 +351,7 @@ export default class AppIntro extends Component {
           renderPagination={this.renderPagination}
           onMomentumScrollEnd={(e, state) => {
             if (this.isToTintStatusBar()) {
-              StatusBar.setBackgroundColor(this.shadeStatusBarColor(this.props.pageArray[state.index].backgroundColor, -0.3), false);
+              StatusBar.setBackgroundColor(this.shadeStatusBarColor('#006150', -0.3), false);
             }
 
             this.props.onSlideChange(state.index, state.total);
@@ -394,16 +397,16 @@ AppIntro.propTypes = {
 };
 
 AppIntro.defaultProps = {
-  dotColor: 'rgba(255,255,255,.3)',
-  activeDotColor: '#fff',
-  rightTextColor: '#fff',
-  leftTextColor: '#fff',
+  dotColor: 'rgba(36, 41, 46, .3)',
+  activeDotColor: 'grey',
+  rightTextColor: 'grey',
+  leftTextColor: 'grey',
   pageArray: [],
   onSlideChange: () => {},
   onSkipBtnClick: () => {},
   onDoneBtnClick: () => {},
   onNextBtnClick: () => {},
-  doneBtnLabel: 'Done',
+  doneBtnLabel: 'Get Started',
   skipBtnLabel: 'Skip',
   nextBtnLabel: '›',
   defaultIndex: 0,
