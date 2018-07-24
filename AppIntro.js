@@ -336,7 +336,7 @@ export default class AppIntro extends Component {
     }
 
     if (this.isToTintStatusBar()) {
-      StatusBar.setBackgroundColor(this.shadeStatusBarColor(this.props.pageArray[0].backgroundColor, -0.3), false);
+      StatusBar.setBackgroundColor(this.shadeStatusBarColor('#006150', -0.3), false);
     }
 
     return (
