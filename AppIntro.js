@@ -24,18 +24,18 @@ const windowsHeight = Dimensions.get('window').height;
 
 const defaulStyles = {
   header: {
-    flex: 0.5,
+    flex: 0.33,
     justifyContent: 'center',
     alignItems: 'center',
   },
   pic: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
   },
   info: {
-    flex: 0.5,
+    flex: 0.3,
     alignItems: 'center',
-    padding: 30,
+    padding: 25,
   },
   slide: {
     flex: 1,
@@ -46,24 +46,23 @@ const defaulStyles = {
   },
   title: {
     color: '#fff',
-    fontSize: 20,
-    fontWeight: '800',
+    fontSize: 21,
+    fontWeight: '600',
     paddingBottom: 20,
   },
   description: {
     color: '#fff',
-    fontSize: 14,
-    // fontWeight: '200',
+    fontSize: 12,
   },
   controllText: {
     color: '#fff',
-    fontSize: 22,
-    fontWeight: 'bold',
+    fontSize: 14,
+    fontWeight: '200',
   },
   dotStyle: {
     backgroundColor: 'rgba(255,255,255,.3)',
-    width: 13,
-    height: 13,
+    width: 10,
+    height: 10,
     borderRadius: 7,
     marginLeft: 7,
     marginRight: 7,
@@ -80,7 +79,7 @@ const defaulStyles = {
     right: 0,
     flexDirection: 'row',
     flex: 1,
-    justifyContent: 'center',
+    //justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent',
   },
@@ -91,16 +90,17 @@ const defaulStyles = {
     alignItems: 'center',
   },
   btnContainer: {
-    flex: 0.2,
-    justifyContent: 'center',
+    flex: 4,
+    justifyContent: 'flex-start',
     alignItems: 'center',
     height: 50,
+    marginBottom: 10,
   },
   nextButtonText: {
-    fontSize: 15,
-    marginLeft: 14,
-    fontWeight: 'bold',
+    fontSize: 14,
+    fontWeight: '200',
     fontFamily: 'Arial',
+    marginBottom: 50,
   },
   full: {
     height: 80,
@@ -218,10 +218,12 @@ export default class AppIntro extends Component {
           onSkipBtnClick={() => this.props.onSkipBtnClick(index)} /> :
           <View style={this.styles.btnContainer} />
         }
+        <View style={{ flex: 10, justifyContent: 'center',alignSelf: 'center', alignItems: 'center', flexDirection: 'row' }}>
         {this.props.showDots && RenderDots(index, total, {
           ...this.props,
           styles: this.styles
         })}
+        </View>
         {this.props.showDoneButton ? <DoneButton
             {...this.props}
             {...this.state}
@@ -243,23 +245,28 @@ export default class AppIntro extends Component {
     backgroundColor,
     fontColor,
     level,
-  }) => {
+  }, total) => {
     const AnimatedStyle1 = this.getTransform(index, 10, level);
     const AnimatedStyle2 = this.getTransform(index, 0, level);
     const AnimatedStyle3 = this.getTransform(index, 15, level);
     const imgSource = (typeof img === 'string') ? {uri: img} : img;
     const pageView = (
       <View style={[this.styles.slide, { backgroundColor }]} showsPagination={false} key={index}>
-        <Animated.View style={[this.styles.header, ...AnimatedStyle1.transform]}>
-          <Image style={imgStyle} source={imgSource} />
+        <Animated.View style={[this.styles.header, ...AnimatedStyle1.transform, {height: undefined, width: undefined}]}>
+          <Image resizeMode="contain" style={imgStyle} source={imgSource} />
         </Animated.View>
         <View style={this.styles.info}>
           <Animated.View style={AnimatedStyle2.transform}>
-            <Text style={[this.styles.title, { color: fontColor }]}>{title}</Text>
+            <Text style={[this.styles.title, { color: fontColor}]}>{title}</Text>
           </Animated.View>
           <Animated.View style={AnimatedStyle3.transform}>
-            <Text style={[this.styles.description, { color: fontColor }]}>{description}</Text>
+            <Text style={[this.styles.description, { color: fontColor , textAlign: 'center' }]}>{description}</Text>
           </Animated.View>
+          <Animated.View style={AnimatedStyle3.transform}>
+          {index == total  && <TouchableOpacity onPress={this.props.onDoneBtnClick} style={{ borderRadius: 3, padding: 8, alignContent: 'center', justifyContent:'center', backgroundColor: '#3edfd5', marginTop: 60 }} >
+            <Text style={{ fontSize: 14, color: 'white', fontWeight: 'bold' }}>GET STARTED </Text>
+             </TouchableOpacity>}
+             </Animated.View>
         </View>
       </View>
     );
@@ -313,7 +320,7 @@ export default class AppIntro extends Component {
     let pages = [];
     let androidPages = null;
     if (pageArray.length > 0) {
-      pages = pageArray.map((page, i) => this.renderBasicSlidePage(i, page));
+      pages = pageArray.map((page, i) => this.renderBasicSlidePage(i, page, pageArray.length - 1));
     } else {
       if (Platform.OS === 'ios') {
         pages = childrens.map((children, i) => this.renderChild(children, i, i));
@@ -338,9 +345,7 @@ export default class AppIntro extends Component {
       }
     }
 
-    if (this.isToTintStatusBar()) {
-      StatusBar.setBackgroundColor(this.shadeStatusBarColor('#006150', -0.3), false);
-    }
+
 
     return (
       <View>
@@ -351,8 +356,7 @@ export default class AppIntro extends Component {
           renderPagination={this.renderPagination}
           onMomentumScrollEnd={(e, state) => {
             if (this.isToTintStatusBar()) {
-              StatusBar.setBackgroundColor(this.shadeStatusBarColor('#006150', -0.3), false);
-            }
+                }
 
             this.props.onSlideChange(state.index, state.total);
           }}
@@ -397,8 +401,8 @@ AppIntro.propTypes = {
 };
 
 AppIntro.defaultProps = {
-  dotColor: 'rgba(36, 41, 46, .3)',
-  activeDotColor: 'grey',
+  dotColor: 'rgba(255,255,255,.3)',
+  activeDotColor: '#3edfd5',
   rightTextColor: 'grey',
   leftTextColor: 'grey',
   pageArray: [],
@@ -407,8 +411,8 @@ AppIntro.defaultProps = {
   onDoneBtnClick: () => {},
   onNextBtnClick: () => {},
   doneBtnLabel: 'Get Started',
-  skipBtnLabel: 'Skip',
-  nextBtnLabel: '›',
+  skipBtnLabel: 'SKIP',
+  nextBtnLabel: 'NEXT',
   defaultIndex: 0,
   showSkipButton: true,
   showDoneButton: true,
