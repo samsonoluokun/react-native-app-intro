@@ -48,7 +48,7 @@ const defaulStyles = {
     color: '#fff',
     fontSize: 21,
     fontWeight: '600',
-    paddingBottom: 20,
+    paddingBottom: 2,
   },
   description: {
     color: '#fff',
@@ -94,7 +94,7 @@ const defaulStyles = {
     justifyContent: 'flex-start',
     alignItems: 'center',
     height: 50,
-    marginBottom: 10,
+    marginBottom: 30,
   },
   nextButtonText: {
     fontSize: 14,
@@ -259,7 +259,7 @@ export default class AppIntro extends Component {
           <Animated.View style={AnimatedStyle2.transform}>
             <Text style={[this.styles.title, { color: fontColor}]}>{title}</Text>
           </Animated.View>
-          <Animated.View style={AnimatedStyle3.transform}>
+          <Animated.View style={[AnimatedStyle3.transform, { marginTop: 2 }]}>
             <Text style={[this.styles.description, { color: fontColor , textAlign: 'center' }]}>{description}</Text>
           </Animated.View>
           <Animated.View style={AnimatedStyle3.transform}>
